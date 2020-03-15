@@ -1,5 +1,5 @@
 spring:
-  thymeleaf:
+  thymeleaf:    # 生产或者开发环境都可以引用
     mode: HTML
-  profiles:
+  profiles:     # 指定当前环境的配置文件前缀
     active: dev
