@@ -21,6 +21,7 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ModelAndView exceptionHandler(HttpServletRequest request, Exception e) throws Exception {
         logger.error("Request URL :{},Exception:{}", request.getRequestURL(), e);
+        // 如果有标注了该注解@ResponseStatus(HttpStatus.NOT_FOUND)的类,不进行拦截,直接返回异常
         if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {
             throw e;
         }
