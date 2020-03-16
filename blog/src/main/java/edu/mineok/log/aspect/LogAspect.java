@@ -1,4 +1,4 @@
-package edu.mineok.aspect;
+package edu.mineok.log.aspect;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
@@ -17,7 +16,6 @@ import java.util.Arrays;
 public class LogAspect {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    ;
 
     // 切面类
     @Pointcut("execution(* edu.mineok.web.*.*(..))")
