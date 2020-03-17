@@ -58,11 +58,11 @@ public class BlogService {
 
     @Transactional
     public Blog saveBlog(Blog blog) {
-        if (blog.getId() == null){
+        if (blog.getId() == null) {
             blog.setCreateTime(new Date());
             blog.setUpdateTime(new Date());
             blog.setViews(0);
-        }else {
+        } else {
             blog.setUpdateTime(new Date());
         }
         return blogRepository.save(blog);
@@ -90,10 +90,14 @@ public class BlogService {
         return blogRepository.findAll(pageable);
     }
 
-  public  List<Blog> listRecommendBlogTop(Integer size){
-      // SpringBoot2.2.1以上版本使用该方式
-      Sort sort = Sort.by(Sort.Direction.DESC, "updateTime");
-      PageRequest pageable = PageRequest.of(0, size, sort);
-      return blogRepository.findTop(pageable);
+    public Page<Blog> listBlog(String query, Pageable pageable) {
+        return blogRepository.findByQuery(query, pageable);
+    }
+
+    public List<Blog> listRecommendBlogTop(Integer size) {
+        // SpringBoot2.2.1以上版本使用该方式
+        Sort sort = Sort.by(Sort.Direction.DESC, "updateTime");
+        PageRequest pageable = PageRequest.of(0, size, sort);
+        return blogRepository.findTop(pageable);
     }
 }
