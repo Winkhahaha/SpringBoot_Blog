@@ -20,6 +20,9 @@ public class Blog {
     private Long id;                    // 主键id
 
     private String title;               // 标题
+
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
     private String content;             // 内容
     private String firstPicture;        // 首图
     private String flag;                // 标记
@@ -48,26 +51,35 @@ public class Blog {
     @OneToMany(mappedBy = "blog")
     private List<Comment> comments = new ArrayList<>();
 
+    @Transient  // 不会入数据库
+    private String tagIds;
+
+    private String description;
 
 
 
-
-    @Override
-    public String toString() {
-        return "Blog{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", firstPicture='" + firstPicture + '\'' +
-                ", flag='" + flag + '\'' +
-                ", views=" + views +
-                ", appreciation=" + appreciation +
-                ", shareStatement=" + shareStatement +
-                ", commentabled=" + commentabled +
-                ", published=" + published +
-                ", recommend=" + recommend +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
+    public void init(){
+        this.tagIds = tagsToIds(this.getTags());
     }
+
+    // 1,2,3
+    private String tagsToIds(List<Tag> tags) {
+        if (!tags.isEmpty()) {
+            StringBuffer ids = new StringBuffer();
+            boolean flag = false;
+            for (Tag tag : tags) {
+                if (flag) {
+                    ids.append(",");
+                } else {
+                    flag = true;
+                }
+                ids.append(tag.getId());
+            }
+            return ids.toString();
+        } else {
+            return tagIds;
+        }
+    }
+
+
 }
