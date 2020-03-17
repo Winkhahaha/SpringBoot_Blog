@@ -7,7 +7,9 @@ import edu.mineok.repository.TagRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,4 +80,10 @@ public class TagService {
         return list;
     }
 
+    public List<Tag> listTagTop(Integer size){
+        // SpringBoot2.2.1以上版本使用该方式
+        Sort sort = Sort.by(Sort.Direction.DESC, "blogs.size");
+        PageRequest pageable = PageRequest.of(0, size, sort);
+        return tagRepository.findTop(pageable);
+    }
 }

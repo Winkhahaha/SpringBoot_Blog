@@ -10,7 +10,9 @@ import edu.mineok.vo.BlogQuery;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,5 +88,12 @@ public class BlogService {
 
     public Page<Blog> listBlog(Pageable pageable) {
         return blogRepository.findAll(pageable);
+    }
+
+  public  List<Blog> listRecommendBlogTop(Integer size){
+      // SpringBoot2.2.1以上版本使用该方式
+      Sort sort = Sort.by(Sort.Direction.DESC, "updateTime");
+      PageRequest pageable = PageRequest.of(0, size, sort);
+      return blogRepository.findTop(pageable);
     }
 }

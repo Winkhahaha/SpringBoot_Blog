@@ -1,7 +1,6 @@
 package edu.mineok.controller;
 
 import edu.mineok.entity.Blog;
-import edu.mineok.entity.Type;
 import edu.mineok.entity.User;
 import edu.mineok.service.BlogService;
 import edu.mineok.service.TagService;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.persistence.Id;
 import javax.servlet.http.HttpSession;
 
 @Controller
