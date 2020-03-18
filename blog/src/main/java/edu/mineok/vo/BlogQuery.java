@@ -12,5 +12,4 @@ public class BlogQuery {
     private Long typeId;
     private boolean recommend;
 
-
 }
