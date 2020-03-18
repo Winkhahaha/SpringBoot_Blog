@@ -3,5 +3,7 @@ spring:
     mode: HTML
   profiles:     # 指定当前环境的配置文件前缀
     active: dev
+  messages:
+    basename: i18n/message
 
 comment.avatar: /images/avatar.png
