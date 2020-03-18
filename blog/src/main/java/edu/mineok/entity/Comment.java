@@ -37,16 +37,7 @@ public class Comment {
     @ManyToOne
     private Comment parentComment;
 
+    private boolean adminComment;
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", nickname='" + nickname + '\'' +
-                ", email='" + email + '\'' +
-                ", content='" + content + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", createTime=" + createTime +
-                '}';
-    }
+
 }

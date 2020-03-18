@@ -42,11 +42,12 @@ public class BlogService {
         if (blog == null) {
             throw new NotFoundException("该博客不存在");
         }
-
         Blog b = new Blog();
         BeanUtils.copyProperties(blog,b);
         String content = b.getContent();
         b.setContent(MarkdownUtils.markdownToHtmlExtensions(content));
+        // 每访问一次博客详情,浏览次数加1
+        blogRepository.updateViews(id);
         return b;
     }
 

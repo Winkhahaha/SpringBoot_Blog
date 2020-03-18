@@ -3,3 +3,5 @@ spring:
     mode: HTML
   profiles:     # 指定当前环境的配置文件前缀
     active: dev
+
+comment.avatar: /images/avatar.png
