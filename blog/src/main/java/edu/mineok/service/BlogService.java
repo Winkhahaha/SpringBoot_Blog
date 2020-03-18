@@ -5,6 +5,7 @@ import edu.mineok.entity.Blog;
 import edu.mineok.entity.Type;
 import edu.mineok.exception.NotFoundException;
 import edu.mineok.repository.BlogRepository;
+import edu.mineok.util.MarkdownUtils;
 import edu.mineok.util.MyBeanUtils;
 import edu.mineok.vo.BlogQuery;
 import org.springframework.beans.BeanUtils;
@@ -33,6 +34,20 @@ public class BlogService {
 
     public Blog getBlog(Long id) {
         return blogRepository.findById(id).get();
+    }
+
+    // 将Markdown博客转换成HTML
+    public Blog getAndConvert(Long id) {
+        Blog blog = blogRepository.findById(id).get();
+        if (blog == null) {
+            throw new NotFoundException("该博客不存在");
+        }
+
+        Blog b = new Blog();
+        BeanUtils.copyProperties(blog,b);
+        String content = b.getContent();
+        b.setContent(MarkdownUtils.markdownToHtmlExtensions(content));
+        return b;
     }
 
     public Page<Blog> listBlog(Pageable pageable, BlogQuery blog) {
