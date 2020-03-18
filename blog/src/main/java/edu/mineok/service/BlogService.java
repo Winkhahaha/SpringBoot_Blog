@@ -19,9 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class BlogService {
@@ -33,6 +31,11 @@ public class BlogService {
         return blogRepository.findById(id).get();
     }
 
+    public Long countBlog() {
+        // 获取blog表中所有数据条数
+        return blogRepository.count();
+    }
+
     // 将Markdown博客转换成HTML
     public Blog getAndConvert(Long id) {
         Blog blog = blogRepository.findById(id).get();
@@ -40,7 +43,7 @@ public class BlogService {
             throw new NotFoundException("该博客不存在");
         }
         Blog b = new Blog();
-        BeanUtils.copyProperties(blog,b);
+        BeanUtils.copyProperties(blog, b);
         String content = b.getContent();
         b.setContent(MarkdownUtils.markdownToHtmlExtensions(content));
         // 每访问一次博客详情,浏览次数加1
@@ -107,14 +110,24 @@ public class BlogService {
         return blogRepository.findByQuery(query, pageable);
     }
 
-    public Page<Blog> listBlog(Long tagId,Pageable pageable){
+    public Page<Blog> listBlog(Long tagId, Pageable pageable) {
         return blogRepository.findAll(new Specification<Blog>() {
             @Override
             public Predicate toPredicate(Root<Blog> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
                 Join join = root.join("tags");
-                return cb.equal(join.get("id"),tagId);
+                return cb.equal(join.get("id"), tagId);
             }
-        },pageable);
+        }, pageable);
+    }
+
+    // 根据查找到的年份,获取该年份下的博客
+    public Map<String, List<Blog>> archiveBlog() {
+        List<String> years = blogRepository.findGroupYears();
+        Map<String, List<Blog>> map = new HashMap<>();
+        for (String year : years) {
+            map.put(year, blogRepository.findByYear(year));
+        }
+        return map;
     }
 
     public List<Blog> listRecommendBlogTop(Integer size) {

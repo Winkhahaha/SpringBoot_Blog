@@ -29,7 +29,7 @@ public class TypeShowController {
     public String types(@PageableDefault(size = 8, sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable
             , @PathVariable Long id, Model model) {
         List<Type> types = typeService.listTypeTop(10000);
-        // 从导航点击分类栏后(url=-1),先把第一个分类下博客先展示出来
+        // 从导航点击分类栏后(url=-1),先把第一个分类下博客展示出来
         if (id == -1) {
             id = types.get(0).getId();
         }
